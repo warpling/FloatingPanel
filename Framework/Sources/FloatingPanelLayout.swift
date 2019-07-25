@@ -149,7 +149,8 @@ class FloatingPanelLayoutAdapter {
     }
 
     private var safeAreaInsets: UIEdgeInsets {
-        return vc?.layoutInsets ?? .zero
+        guard let vc = vc else { return .zero }
+        return vc.parent?.layoutInsets ?? vc.layoutInsets
     }
 
     private var initialConst: CGFloat = 0.0
