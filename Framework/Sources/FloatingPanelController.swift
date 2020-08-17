@@ -558,6 +558,13 @@ open class FloatingPanelController: UIViewController, UIScrollViewDelegate, UIGe
     public func originYOfSurface(for pos: FloatingPanelPosition) -> CGFloat {
         return floatingPanel.layoutAdapter.positionY(for: pos)
     }
+
+    // MARK: - Accessibility
+
+    open override func accessibilityPerformEscape() -> Bool {
+        dismiss(animated: true, completion: nil)
+        return true
+    }
 }
 
 extension FloatingPanelController {
