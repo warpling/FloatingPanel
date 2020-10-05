@@ -136,3 +136,46 @@ public extension FloatingPanelIntrinsicLayoutAnchor {
         }
     }
 }
+
+@objc final public class FloatingPanelAdaptiveLayoutAnchor: NSObject, FloatingPanelLayoutAnchoring /*, NSCopying */ {
+    @objc public init(absoluteOffset offset: CGFloat, viewLayout: UILayoutGuide, referenceGuide: FloatingPanelLayoutReferenceGuide = .safeArea) {
+        self.offset = offset
+        self.viewLayout = viewLayout
+        self.referenceGuide = referenceGuide
+        self.isAbsolute = true
+
+    }
+    @objc public init(fractionalOffset offset: CGFloat, viewLayout: UILayoutGuide, referenceGuide: FloatingPanelLayoutReferenceGuide = .safeArea) {
+        self.offset = offset
+        self.viewLayout = viewLayout
+        self.referenceGuide = referenceGuide
+        self.isAbsolute = false
+    }
+    fileprivate let offset: CGFloat
+    fileprivate let isAbsolute: Bool
+    let viewLayout: UILayoutGuide
+    @objc public let referenceGuide: FloatingPanelLayoutReferenceGuide
+}
+
+public extension FloatingPanelAdaptiveLayoutAnchor {
+    func distance(from dimension: CGFloat) -> CGFloat {
+        return isAbsolute ? offset : dimension * offset
+    }
+    func layoutConstraints(_ vc: FloatingPanelController, for position: FloatingPanelPosition) -> [NSLayoutConstraint] {
+        let layoutGuide = referenceGuide.layoutGuide(vc: vc)
+        let dimension = position.mainDimension(viewLayout.layoutFrame.size)
+        let constant = isAbsolute ? -offset : dimension * (1 - offset)
+        let offsetAnchor: NSLayoutDimension
+        switch position {
+        case .top:
+            offsetAnchor = layoutGuide.topAnchor.anchorWithOffset(to: vc.surfaceView.bottomAnchor)
+        case .left:
+            offsetAnchor = layoutGuide.leftAnchor.anchorWithOffset(to: vc.surfaceView.rightAnchor)
+        case .bottom:
+            offsetAnchor = vc.surfaceView.topAnchor.anchorWithOffset(to: layoutGuide.bottomAnchor)
+        case .right:
+            offsetAnchor = vc.surfaceView.leftAnchor.anchorWithOffset(to: layoutGuide.rightAnchor)
+        }
+        return [offsetAnchor.constraint(equalTo: position.mainDimensionAnchor(viewLayout), constant: constant)]
+    }
+}
