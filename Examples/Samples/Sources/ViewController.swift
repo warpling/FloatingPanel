@@ -24,6 +24,7 @@ class SampleListViewController: UIViewController {
         case showContainerMargins
         case showNavigationController
         case showBottomEdgeInteraction
+        case showAdaptiveLayoutPanel
 
         var name: String {
             switch self {
@@ -44,6 +45,7 @@ class SampleListViewController: UIViewController {
             case .showContainerMargins: return "Show with ContainerMargins"
             case .showNavigationController: return "Show Navigation Controller"
             case .showBottomEdgeInteraction: return "Show bottom edge interaction"
+            case .showAdaptiveLayoutPanel: return "Show Adaptive layout panel"
             }
         }
 
@@ -66,6 +68,7 @@ class SampleListViewController: UIViewController {
             case .showContainerMargins: return nil
             case .showNavigationController: return "RootNavigationController"
             case .showBottomEdgeInteraction: return nil
+            case .showAdaptiveLayoutPanel: return "ImageViewController"
             }
         }
     }
@@ -182,6 +185,11 @@ class SampleListViewController: UIViewController {
                 rootVC.loadViewIfNeeded()
                 mainPanelVC.track(scrollView: rootVC.tableView)
             }
+        case let contentVC as ImageViewController:
+            mainPanelVC.delegate = nil
+            mainPanelVC.layout = ImageViewController.PanelLayout(targetView: contentVC.scrollView)
+            mainPanelVC.isRemovalInteractionEnabled = true
+            mainPanelVC.track(scrollView: contentVC.scrollView)
         default:
             break
         }
@@ -1281,4 +1289,31 @@ final class MultiPanelController: FloatingPanelController, FloatingPanelControll
             ]
         }
     }
+}
+
+class ImageViewController: UIViewController {
+    class PanelLayout: FloatingPanelLayout {
+        weak var targetView: UIScrollView?
+        init(targetView: UIScrollView) {
+            self.targetView = targetView
+        }
+        let position: FloatingPanelPosition = .bottom
+        let initialState: FloatingPanelState = .full
+        var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
+            if #available(iOS 11.0, *), let targetView = targetView {
+                return [
+                    .full: FloatingPanelAdaptiveLayoutAnchor(absoluteOffset: 0,
+                                                             viewLayout: targetView.contentLayoutGuide,
+                                                             referenceGuide: .superview)
+                ]
+            } else {
+                return [
+                    .full: FloatingPanelLayoutAnchor(absoluteInset: 500,
+                                                     edge: .bottom,
+                                                     referenceGuide: .superview)
+                ]
+            }
+        }
+    }
+    @IBOutlet weak var scrollView: UIScrollView!
 }
