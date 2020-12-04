@@ -312,22 +312,24 @@
                                             <constraint firstAttribute="height" constant="49" id="DmG-pt-gij"/>
                                         </constraints>
                                     </view>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" alwaysBounceHorizontal="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kRA-qy-GpJ">
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8Uw-2a-luT" customClass="IntrinsicTableView" customModule="Samples" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="49" width="375" height="680"/>
-                                        <subviews>
-                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" image="IMG_0003" translatesAutoresizingMaskIntoConstraints="NO" id="rGf-jW-WNf">
-                                                <rect key="frame" x="0.0" y="0.0" width="750" height="501"/>
-                                                <color key="backgroundColor" systemColor="systemPurpleColor"/>
-                                            </imageView>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.0078431372550000003" green="0.72156862749999995" blue="0.45882352939999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="rGf-jW-WNf" secondAttribute="trailing" id="472-Be-cUl"/>
-                                            <constraint firstAttribute="bottom" secondItem="rGf-jW-WNf" secondAttribute="bottom" id="ncs-tN-3Wx"/>
-                                            <constraint firstItem="rGf-jW-WNf" firstAttribute="leading" secondItem="kRA-qy-GpJ" secondAttribute="leading" id="rlv-5Y-utR"/>
-                                            <constraint firstItem="rGf-jW-WNf" firstAttribute="top" secondItem="kRA-qy-GpJ" secondAttribute="top" id="zum-Zl-Wzz"/>
-                                        </constraints>
-                                    </scrollView>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                        <prototypes>
+                                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="Cell" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="KIA-wY-8VF">
+                                                <rect key="frame" x="0.0" y="28" width="375" height="43.666667938232422"/>
+                                                <autoresizingMask key="autoresizingMask"/>
+                                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KIA-wY-8VF" id="HU4-Kc-K5U">
+                                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.666667938232422"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                </tableViewCellContentView>
+                                            </tableViewCell>
+                                        </prototypes>
+                                        <connections>
+                                            <outlet property="dataSource" destination="VWY-cF-RoY" id="kNh-Uy-tqO"/>
+                                            <outlet property="delegate" destination="VWY-cF-RoY" id="lqK-n9-aPP"/>
+                                        </connections>
+                                    </tableView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SEa-7Y-wa9">
                                         <rect key="frame" x="0.0" y="729" width="375" height="49"/>
                                         <color key="backgroundColor" systemColor="systemTealColor"/>
@@ -351,8 +353,8 @@
                     <connections>
                         <outlet property="footerView" destination="SEa-7Y-wa9" id="Gzj-dP-YXl"/>
                         <outlet property="headerView" destination="t7x-eG-MKh" id="njM-un-U8q"/>
-                        <outlet property="scrollView" destination="kRA-qy-GpJ" id="iWC-o4-APi"/>
                         <outlet property="stackView" destination="Gs4-S6-Goh" id="f1D-bO-mjr"/>
+                        <outlet property="tableView" destination="8Uw-2a-luT" id="ORb-LE-r2B"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pnR-69-Ek4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -792,15 +794,11 @@ Section 1.10.33 of "de Finibus Bonorum et Malorum", written by Cicero in 45 BC
         <segue reference="r1P-2i-NDe"/>
     </inferredMetricsTieBreakers>
     <resources>
-        <image name="IMG_0003" width="750" height="501"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
         <systemColor name="systemOrangeColor">
             <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemPurpleColor">
-            <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemTealColor">
             <color red="0.35294117647058826" green="0.78431372549019607" blue="0.98039215686274506" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

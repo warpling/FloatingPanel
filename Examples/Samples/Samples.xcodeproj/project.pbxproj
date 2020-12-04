@@ -18,6 +18,7 @@
 		549D23CC233C7779008EF4D7 /* FloatingPanel.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 549D23CA233C7779008EF4D7 /* FloatingPanel.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		54B51116216AFE5F0033A6F3 /* UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B51115216AFE5F0033A6F3 /* UIExtensions.swift */; };
 		54CDC5D8215BBE23007D205C /* UIComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CDC5D7215BBE23007D205C /* UIComponents.swift */; };
+		DC169275257A888800A7D507 /* IntrinsicTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC169274257A888700A7D507 /* IntrinsicTableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		549D23CA233C7779008EF4D7 /* FloatingPanel.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FloatingPanel.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		54B51115216AFE5F0033A6F3 /* UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIExtensions.swift; sourceTree = "<group>"; };
 		54CDC5D7215BBE23007D205C /* UIComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIComponents.swift; sourceTree = "<group>"; };
+		DC169274257A888700A7D507 /* IntrinsicTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntrinsicTableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				545DB9F121511E6300CA77B8 /* Main.storyboard */,
 				545DB9ED21511E6300CA77B8 /* AppDelegate.swift */,
 				545DB9EF21511E6300CA77B8 /* ViewController.swift */,
+				DC169274257A888700A7D507 /* IntrinsicTableView.swift */,
 				54B51115216AFE5F0033A6F3 /* UIExtensions.swift */,
 				54CDC5D7215BBE23007D205C /* UIComponents.swift */,
 				545DB9F921511E6400CA77B8 /* Info.plist */,
@@ -303,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC169275257A888800A7D507 /* IntrinsicTableView.swift in Sources */,
 				54CDC5D8215BBE23007D205C /* UIComponents.swift in Sources */,
 				54B51116216AFE5F0033A6F3 /* UIExtensions.swift in Sources */,
 				545DB9F021511E6300CA77B8 /* ViewController.swift in Sources */,

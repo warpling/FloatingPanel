@@ -193,15 +193,14 @@ class SampleListViewController: UIViewController {
             }
         case let contentVC as ImageViewController:
             if #available(iOS 11.0, *) {
-                let mode: ImageViewController.Mode = (currentMenu == .showAdaptivePanelWithCustomGuide) ? .withHeaderFooter : .onlyImage
-                let layoutGuide = contentVC.layoutGuideFor(mode: mode)
+                let layoutGuide = contentVC.layoutGuide()
                 mainPanelVC.layout = ImageViewController.PanelLayout(targetGuide: layoutGuide)
             } else {
                 mainPanelVC.layout = ImageViewController.PanelLayout(targetGuide: nil)
             }
             mainPanelVC.delegate = nil
             mainPanelVC.isRemovalInteractionEnabled = true
-            mainPanelVC.track(scrollView: contentVC.scrollView)
+            mainPanelVC.track(scrollView: contentVC.tableView)
         default:
             break
         }
@@ -1317,7 +1316,8 @@ final class MultiPanelController: FloatingPanelController, FloatingPanelControll
     }
 }
 
-class ImageViewController: UIViewController {
+class ImageViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+
     class PanelLayout: FloatingPanelLayout {
         weak var targetGuide: UILayoutGuide?
         init(targetGuide: UILayoutGuide?) {
@@ -1329,9 +1329,6 @@ class ImageViewController: UIViewController {
             if #available(iOS 11.0, *), let targetGuide = targetGuide {
                 return [
                     .full: FloatingPanelAdaptiveLayoutAnchor(absoluteOffset: 0,
-                                                             contentLayout: targetGuide,
-                                                             referenceGuide: .superview),
-                    .half: FloatingPanelAdaptiveLayoutAnchor(fractionalOffset: 0.5,
                                                              contentLayout: targetGuide,
                                                              referenceGuide: .superview)
                 ]
@@ -1347,7 +1344,7 @@ class ImageViewController: UIViewController {
 
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var footerView: UIView!
-    @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var stackView: UIStackView!
 
     enum Mode {
@@ -1355,28 +1352,46 @@ class ImageViewController: UIViewController {
         case withHeaderFooter
     }
 
+    let cellResuseID = "Cell"
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellResuseID)
+    }
+
     @available(iOS 11.0, *)
-    func layoutGuideFor(mode: Mode) -> UILayoutGuide {
-        switch mode {
-        case .onlyImage:
-            self.headerView.isHidden = true
-            self.footerView.isHidden = true
-            return scrollView.contentLayoutGuide
-        case .withHeaderFooter:
-            self.headerView.isHidden = false
-            self.footerView.isHidden = false
-            let guide = UILayoutGuide()
-            view.addLayoutGuide(guide)
+    func layoutGuide() -> UILayoutGuide {
+        self.headerView.isHidden = false
+        self.footerView.isHidden = false
+        let guide = UILayoutGuide()
+        view.addLayoutGuide(guide)
 
-            NSLayoutConstraint.activate([
-                scrollView.heightAnchor.constraint(equalTo: scrollView.contentLayoutGuide.heightAnchor),
+        NSLayoutConstraint.activate([
+            tableView.heightAnchor.constraint(lessThanOrEqualTo: view.heightAnchor),
+            guide.topAnchor.constraint(equalTo: stackView.topAnchor),
+            guide.leftAnchor.constraint(equalTo: stackView.leftAnchor),
+            guide.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
+            guide.rightAnchor.constraint(equalTo: stackView.rightAnchor),
+        ])
+        return guide
+    }
 
-                guide.topAnchor.constraint(equalTo: stackView.topAnchor),
-                guide.leftAnchor.constraint(equalTo: stackView.leftAnchor),
-                guide.bottomAnchor.constraint(equalTo: stackView.bottomAnchor),
-                guide.rightAnchor.constraint(equalTo: stackView.rightAnchor),
-            ])
-            return guide
-        }
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellResuseID, for: indexPath)
+        cell.textLabel?.text = "\(indexPath.row)"
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 40
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        50
     }
 }
